@@ -1,7 +1,6 @@
 const botaoConverter = document.querySelector('.botao-converter')
 const currenceSelecionarMoeda = document.querySelector('.currence-selecionar-moeda')
 
-// Função para converter valores usando a API gratuita
 async function convertValues() {
     const inputValorDigitadoValue = document.querySelector('.input-valor-digitado')
     const currenceValorSerConverter = document.querySelector('.currence-valor-ser-converter')
@@ -9,40 +8,42 @@ async function convertValues() {
     const valor = Number(inputValorDigitadoValue.value)
     const moedaSelecionada = currenceSelecionarMoeda.value
 
-    // Atualiza valor digitado
+    // Mostra valor original em BRL
     currenceValorSerConverter.innerHTML = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL'
     }).format(valor)
 
-    // Mapeia moeda para API
     const moedaMap = {
         Dolar: 'USD',
         Euro: 'EUR',
         Libra: 'GBP'
     }
 
-   const url = `https://api.exchangerate.host/convert?from=BRL&to=${moedaMap[moedaSelecionada]}&amount=${valor}`;
+    // URL da API com sua chave
+    const url = `https://api.apilayer.com/fixer/convert?apikey=a74200e6e60785c01d5fe431efe78c00&from=BRL&to=${moedaMap[moedaSelecionada]}&amount=${valor}`
+
     try {
         const response = await fetch(url)
         const data = await response.json()
 
-        if (data.success) {
+        if (data.result) {
+            // Atualiza valor convertido
             currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: moedaMap[moedaSelecionada]
             }).format(data.result)
         } else {
+            console.error("Erro na API:", data)
             currenceValorConvertido.innerHTML = "Erro"
-            console.error("Erro na conversão:", data)
         }
+
     } catch (error) {
         console.error("Erro ao buscar cotação:", error)
         currenceValorConvertido.innerHTML = "Erro"
     }
 }
 
-// Função para mudar a moeda e atualizar imagem/nome
 function changeCurrence() {
     const currenceNome = document.getElementById('currence-nome')
     const currenceImagem = document.querySelector('.currence-img')
