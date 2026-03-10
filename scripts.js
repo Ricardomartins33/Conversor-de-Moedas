@@ -63,7 +63,7 @@ function changeCurrence() {
     }
     if (currenceSelecionarMoeda.value == 'Euro') {
         currenceNome.innerHTML = 'Euro'
-        currenceImagem.src = './assets/logo euro.png'
+       currenceImagem.src = './assets/logo-euro.png'
     }
     if (currenceSelecionarMoeda.value == 'Libra') {
         currenceNome.innerHTML = 'Libra'
