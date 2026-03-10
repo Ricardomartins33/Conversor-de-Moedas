@@ -169,10 +169,10 @@ body {
     color: #777777;
     text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
-.currence-valor-ser-converter.currence-valor-conversao {
+.currence-valor-ser-converter,
+.currence-valor-convertido {
     font-size: 15px;
     font-weight: 700;
     color: #777777;
     text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
-    
 }
