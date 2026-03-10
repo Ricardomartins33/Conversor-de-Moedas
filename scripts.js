@@ -28,7 +28,6 @@ async function convertValues() {
         const data = await response.json()
 
         if (data.result) {
-            // Atualiza valor convertido
             currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-US', {
                 style: 'currency',
                 currency: moedaMap[moedaSelecionada]
