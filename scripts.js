@@ -8,6 +8,11 @@ async function convertValues() {
     const valor = Number(inputValorDigitadoValue.value)
     const moedaSelecionada = currenceSelecionarMoeda.value
 
+    if (!valor) {
+        alert("Digite um valor válido")
+        return
+    }
+
     // Mostra valor original em BRL
     currenceValorSerConverter.innerHTML = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
@@ -20,10 +25,8 @@ async function convertValues() {
         Libra: 'GBP'
     }
 
-   currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: moedaMap[moedaSelecionada]
-}).format(valor * 5.25); // simulando cotação do dólar
+    const url = `https://api.exchangerate.host/convert?from=BRL&to=${moedaMap[moedaSelecionada]}&amount=${valor}`
+
     try {
         const response = await fetch(url)
         const data = await response.json()
@@ -37,7 +40,6 @@ async function convertValues() {
             console.error("Erro na API:", data)
             currenceValorConvertido.innerHTML = "Erro"
         }
-
     } catch (error) {
         console.error("Erro ao buscar cotação:", error)
         currenceValorConvertido.innerHTML = "Erro"
