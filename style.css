@@ -23,8 +23,11 @@ body {
     justify-content: flex-start;
     border-radius: 20px;
     background: #fff;
-    width: 375px;
-    height: 750px;
+
+    width: 100%;
+    max-width: 375px;
+    min-height: 600px;
+
     padding: 20px;
     box-sizing: border-box;
 }
