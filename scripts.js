@@ -22,8 +22,7 @@ async function convertValues() {
         Libra: 'GBP'
     }
 
-    const url = `https://api.exchangerate.host/convert?from=BRL&to=${moedaMap[moedaSelecionada]}&amount=${valor}`
-
+   const url = `https://api.exchangerate.host/convert?from=BRL&to=${moedaMap[moedaSelecionada]}&amount=${valor}`;
     try {
         const response = await fetch(url)
         const data = await response.json()
