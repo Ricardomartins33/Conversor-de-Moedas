@@ -20,9 +20,10 @@ async function convertValues() {
         Libra: 'GBP'
     }
 
-    // URL da API com sua chave
-    const url = `https://api.apilayer.com/fixer/convert?apikey=a74200e6e60785c01d5fe431efe78c00&from=BRL&to=${moedaMap[moedaSelecionada]}&amount=${valor}`
-
+   currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: moedaMap[moedaSelecionada]
+}).format(valor * 5.25); // simulando cotação do dólar
     try {
         const response = await fetch(url)
         const data = await response.json()
