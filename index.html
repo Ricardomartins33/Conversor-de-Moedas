@@ -13,62 +13,65 @@
   <title>Conversor de Moedas</title>
 </head>
 <body>
-<div class="container">
+  <div class="container">
 
-  <header>
-    <p class="title">Conversor de Moedas</p>
-    <video class="videologo" width="120" height="120" preload="none"
-      style="background: transparent url('https://cdn-icons-png.flaticon.com/512/12834/12834521.png') 50% 50% / fit no-repeat;"
-      autoplay loop muted playsinline>
-      <source src="https://cdn-icons-mp4.flaticon.com/512/12834/12834521.mp4" type="video/mp4">
-    </video>
-  </header>
+    <header>
+      <p class="title">Conversor de Moedas</p>
 
-  <div class="caixa-conversor">
-    <div class="formulario">
-      <label>
-        <p class="label-conversao">Converter de</p>
-        <select>
-          <option>R$ Real Brasileiro</option>
-        </select>
-      </label>
+      <video class="videologo" width="120" height="120" preload="none"
+        style="background: transparent url('https://cdn-icons-png.flaticon.com/512/12834/12834521.png') 50% 50% / fit no-repeat;"
+        autoplay loop muted playsinline>
+        <source src="https://cdn-icons-mp4.flaticon.com/512/12834/12834521.mp4" type="video/mp4">
+      </video>
+    </header>
 
-      <label>
-        <p class="label-conversao">Converter para</p>
-        <select class="currence-selecionar-moeda">
-          <option value="Dolar">US$ Dólar Americano</option>
-          <option value="Euro">€ Euro</option>
-          <option value="Libra">£ Libra Esterlina</option>
-        </select>
-      </label>
+    <div class="caixa-conversor">
 
-      <label>
-        <p class="label-conversao">Valor</p>
-        <input class="input-valor-digitado" type="number" placeholder="10.000,00">
-      </label>
+      <div class="formulario">
+        <label>
+          <p class="label-conversao">Converter de</p>
+          <select>
+            <option>R$ Real Brasileiro</option>
+          </select>
+        </label>
 
-      <button class="botao-converter">Converter</button>
+        <label>
+          <p class="label-conversao">Converter para</p>
+          <select class="currence-selecionar-moeda">
+            <option value="Dolar">US$ Dólar Americano</option>
+            <option value="Euro">€ Euro</option>
+            <option value="Libra">£ Libra Esterlina</option>
+          </select>
+        </label>
+
+        <label>
+          <p class="label-conversao">Valor</p>
+          <input class="input-valor-digitado" type="number" placeholder="10.000,00">
+        </label>
+
+        <button class="botao-converter">Converter</button>
+      </div>
+
+      <div class="resultado">
+        <section>
+          <div>
+            <img src="assets/logo-brasil.png" alt="logo-brasil-converter">
+            <p class="currence">Real</p>
+            <p class="currence-valor-ser-converter">R$ 0,00</p>
+          </div>
+
+          <img class="seta" src="assets/Vector.png" alt="seta">
+
+          <div>
+            <img class="currence-img" src="assets/icons8-circular-dos-eua-50.png" alt="logo-eua-convertida">
+            <p class="currence" id="currence-nome">Dólar</p>
+            <p class="currence-valor-convertido">US$ 0,00</p>
+          </div>
+        </section>
+      </div>
+
     </div>
 
-    <div class="resultado">
-      <section>
-        <div>
-          <img src="assets/logo-brasil.png" alt="logo-brasil-converter">
-          <p class="currence">Real</p>
-          <p class="currence-valor-ser-converter">R$ 0,00</p>
-        </div>
-
-        <img class="seta" src="assets/Vector.png" alt="seta">
-
-        <div>
-          <img class="currence-img" src="assets/icons8-circular-dos-eua-50.png" alt="logo-eua-convertida">
-          <p class="currence" id="currence-nome">Dólar</p>
-          <p class="currence-valor-convertido">US$ 0,00</p>
-        </div>
-      </section>
-    </div>
   </div>
-
-</div>
 </body>
 </html>
