@@ -1,48 +1,46 @@
 const botaoConverter = document.querySelector('.botao-converter');
 const currenceSelecionarMoeda = document.querySelector('.currence-selecionar-moeda');
 
-async function convertValues() {
+function convertValues() {
     const inputValorDigitadoValue = document.querySelector('.input-valor-digitado');
     const currenceValorSerConverter = document.querySelector('.currence-valor-ser-converter');
     const currenceValorConvertido = document.querySelector('.currence-valor-convertido');
+
     const valor = Number(inputValorDigitadoValue.value);
-    const moedaSelecionada = currenceSelecionarMoeda.value;
 
     if (!valor) {
         alert("Digite um valor válido");
         return;
     }
 
-    // Atualiza valor original
+    // Atualiza valor em BRL
     currenceValorSerConverter.innerHTML = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL'
     }).format(valor);
 
-    // Mapeia moeda
-    const moedaMap = {
-        Dolar: 'USD',
-        Euro: 'EUR',
-        Libra: 'GBP'
-    };
+    // Cálculo fixo das cotações
+    const dolar = valor / 5.25;
+    const euro = valor / 5.90;
+    const libra = valor / 6.90;
 
-    try {
-        const response = await fetch(`https://api.exchangerate.host/latest?base=BRL&symbols=${moedaMap[moedaSelecionada]}`);
-        const data = await response.json();
-        const taxa = data.rates[moedaMap[moedaSelecionada]];
-
-        if (taxa) {
-            currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: moedaMap[moedaSelecionada]
-            }).format(valor * taxa);
-        } else {
-            currenceValorConvertido.innerHTML = "Erro";
-        }
-
-    } catch (error) {
-        console.error("Erro ao buscar cotação:", error);
-        currenceValorConvertido.innerHTML = "Erro";
+    if (currenceSelecionarMoeda.value === 'Dolar') {
+        currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD'
+        }).format(dolar);
+    }
+    if (currenceSelecionarMoeda.value === 'Euro') {
+        currenceValorConvertido.innerHTML = new Intl.NumberFormat('de-DE', {
+            style: 'currency',
+            currency: 'EUR'
+        }).format(euro);
+    }
+    if (currenceSelecionarMoeda.value === 'Libra') {
+        currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-GB', {
+            style: 'currency',
+            currency: 'GBP'
+        }).format(libra);
     }
 }
 
@@ -61,7 +59,6 @@ function changeCurrence() {
         currenceImagem.src = './assets/icons8-moeda-de-libra-53.png';
     }
 
-    // Chama a conversão sempre que mudar a moeda
     convertValues();
 }
 
