@@ -64,3 +64,6 @@ function changeCurrence() {
 // Eventos
 currenceSelecionarMoeda.addEventListener('change', changeCurrence);
 botaoConverter.addEventListener('click', convertValues);
+
+const inputValorDigitado = document.querySelector('.input-valor-digitado');
+inputValorDigitado.addEventListener('input', convertValues);
