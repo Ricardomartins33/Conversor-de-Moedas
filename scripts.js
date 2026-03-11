@@ -6,13 +6,12 @@ function convertValues() {
     const currenceValorSerConverter = document.querySelector('.currence-valor-ser-converter');
     const currenceValorConvertido = document.querySelector('.currence-valor-convertido');
 
-    const valor = Number(inputValorDigitadoValue.value);
+  const valor = Number(inputValorDigitadoValue.value);
 
-    if (!valor) {
-        alert("Digite um valor válido");
-        return;
-    }
-
+if (isNaN(valor)) {
+    alert("Digite um valor válido");
+    return;
+}
     // Atualiza valor em BRL
     currenceValorSerConverter.innerHTML = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
