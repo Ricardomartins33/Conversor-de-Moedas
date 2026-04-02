@@ -24,7 +24,7 @@ async function convertValues() {
         currenceValorConvertido.innerHTML = "Carregando...";
 
         
-        const response = await fetch('https://api.exchangerate.host/latest?base=BRL');
+       const response = await fetch(`https://api.frankfurter.app/latest?from=BRL`);
         const data = await response.json();
 
         const moeda = currenceSelecionarMoeda.value;
