@@ -2,6 +2,8 @@
 
 Projeto de conversor de moedas desenvolvido com HTML, CSS e JavaScript, consumindo API externa para obter cotações em tempo real.
 
+---
+
 ## 🚀 Funcionalidades
 
 * Conversão de moedas em tempo real
@@ -10,6 +12,8 @@ Projeto de conversor de moedas desenvolvido com HTML, CSS e JavaScript, consumin
 * Feedback visual com loading
 * Tratamento de erros
 
+---
+
 ## 🛠️ Tecnologias utilizadas
 
 * HTML5
@@ -17,31 +21,39 @@ Projeto de conversor de moedas desenvolvido com HTML, CSS e JavaScript, consumin
 * JavaScript
 * API pública de câmbio
 
+---
+
 ## 📚 Aprendizados
 
 Neste projeto, desenvolvi habilidades como:
 
-* Consumo de APIs com fetch e async/await
+* Consumo de APIs com `fetch` e `async/await`
 * Manipulação de DOM
 * Tratamento de erros
 * Boas práticas de código
 
+---
+
 ## 💻 Como executar o projeto
 
-1. Clone o repositório:
+Clone o repositório:
 
 ```
-git clone https://github.com/seu-usuario/conversor-moedas-api.git
+git clone https://github.com/ricardomartins33/Conversor-de-Moedas.git
+cd Conversor-de-Moedas
 ```
 
-2. Abra o arquivo `index.html` no navegador
+Abra o arquivo `index.html` no navegador.
+
+---
 
 ## 🌐 Projeto online
 
-(https://ricardomartins33.github.io/Conversor-de-Moedas/)
+👉 https://ricardomartins33.github.io/Conversor-de-Moedas/
+
+---
 
 ## 📌 Autor
 
 Ricardo Martins
-LinkedIn: https://www.linkedin.com/in/ricardomartins777
-
+🔗 https://www.linkedin.com/in/ricardomartins777
