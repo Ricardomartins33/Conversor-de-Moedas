@@ -1,39 +1,47 @@
 # 💱 Conversor de Moedas
 
-Aplicação web de conversão de moedas desenvolvida utilizando **HTML, CSS e JavaScript**.  
-O sistema permite que o usuário insira um valor e realize a conversão para diferentes moedas de forma rápida e dinâmica.
+Projeto de conversor de moedas desenvolvido com HTML, CSS e JavaScript, consumindo API externa para obter cotações em tempo real.
 
-## 🚀 Tecnologias utilizadas
+## 🚀 Funcionalidades
 
-- HTML5
-- CSS3
-- JavaScript
-- Manipulação do DOM
-- Formatação de moeda com Intl.NumberFormat
+* Conversão de moedas em tempo real
+* Integração com API de câmbio
+* Interface responsiva
+* Feedback visual com loading
+* Tratamento de erros
 
-## 📚 Funcionalidades
+## 🛠️ Tecnologias utilizadas
 
-✔ Inserir valor para conversão  
-✔ Selecionar moeda desejada  
-✔ Conversão dinâmica com JavaScript  
-✔ Atualização automática do valor convertido  
-✔ Formatação de valores em moeda
+* HTML5
+* CSS3
+* JavaScript
+* API pública de câmbio
 
-## 🎯 Objetivo do projeto
+## 📚 Aprendizados
 
-Este projeto foi desenvolvido com o objetivo de praticar conceitos importantes do desenvolvimento **Front-End**, como:
+Neste projeto, desenvolvi habilidades como:
 
-- Estruturação com HTML
-- Estilização com CSS
-- Manipulação do DOM com JavaScript
-- Eventos e interatividade na interface
+* Consumo de APIs com fetch e async/await
+* Manipulação de DOM
+* Tratamento de erros
+* Boas práticas de código
 
-## 🌐 Demonstração do projeto
+## 💻 Como executar o projeto
 
-Acesse o projeto online:
+1. Clone o repositório:
 
-https://ricardomartins33.github.io/Conversor-de-Moedas
+```
+git clone https://github.com/seu-usuario/conversor-moedas-api.git
+```
 
-## 👨‍💻 Autor
+2. Abra o arquivo `index.html` no navegador
 
-Desenvolvido por **Ricardo Martins**
+## 🌐 Projeto online
+
+(https://ricardomartins33.github.io/Conversor-de-Moedas/)
+
+## 📌 Autor
+
+Ricardo Martins
+LinkedIn: https://www.linkedin.com/in/ricardomartins777
+
