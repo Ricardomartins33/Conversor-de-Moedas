@@ -1,59 +1,67 @@
 const botaoConverter = document.querySelector('.botao-converter');
 const currenceSelecionarMoeda = document.querySelector('.currence-selecionar-moeda');
 
-function convertValues() {
+ 
+async function convertValues() {
     const inputValorDigitadoValue = document.querySelector('.input-valor-digitado');
     const currenceValorSerConverter = document.querySelector('.currence-valor-ser-converter');
     const currenceValorConvertido = document.querySelector('.currence-valor-convertido');
 
-  const valor = Number(inputValorDigitadoValue.value);
+    const valor = Number(inputValorDigitadoValue.value);
 
-if (isNaN(valor)) {
-    alert("Digite um valor válido");
-    return;
-}
-    // Atualiza valor em BRL
+    if (isNaN(valor) || valor <= 0) {
+        alert("Digite um valor válido");
+        return;
+    }
+
+
     currenceValorSerConverter.innerHTML = new Intl.NumberFormat('pt-BR', {
         style: 'currency',
         currency: 'BRL'
     }).format(valor);
 
-    // Cálculo fixo das cotações
-    const dolar = valor / 5.25;
-    const euro = valor / 5.90;
-    const libra = valor / 6.90;
+    try {
+        currenceValorConvertido.innerHTML = "Carregando...";
 
-    if (currenceSelecionarMoeda.value === 'Dolar') {
-        currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-US', {
+        
+        const response = await fetch('https://api.exchangerate.host/latest?base=BRL');
+        const data = await response.json();
+
+        const moeda = currenceSelecionarMoeda.value;
+        const taxa = data.rates[moeda];
+
+        const valorConvertido = valor * taxa;
+
+        // Define localização
+        let locale = 'en-US';
+        if (moeda === 'EUR') locale = 'de-DE';
+        if (moeda === 'GBP') locale = 'en-GB';
+
+        currenceValorConvertido.innerHTML = new Intl.NumberFormat(locale, {
             style: 'currency',
-            currency: 'USD'
-        }).format(dolar);
-    }
-    if (currenceSelecionarMoeda.value === 'Euro') {
-        currenceValorConvertido.innerHTML = new Intl.NumberFormat('de-DE', {
-            style: 'currency',
-            currency: 'EUR'
-        }).format(euro);
-    }
-    if (currenceSelecionarMoeda.value === 'Libra') {
-        currenceValorConvertido.innerHTML = new Intl.NumberFormat('en-GB', {
-            style: 'currency',
-            currency: 'GBP'
-        }).format(libra);
+            currency: moeda
+        }).format(valorConvertido);
+
+    } catch (erro) {
+        currenceValorConvertido.innerHTML = "Erro ao converter.";
+        console.error("Erro:", erro);
     }
 }
+
 
 function changeCurrence() {
     const currenceNome = document.getElementById('currence-nome');
     const currenceImagem = document.querySelector('.currence-img');
 
-    if (currenceSelecionarMoeda.value === 'Dolar') {
+    const moeda = currenceSelecionarMoeda.value;
+
+    if (moeda === 'USD') {
         currenceNome.innerHTML = 'Dólar';
         currenceImagem.src = './assets/icons8-circular-dos-eua-50.png';
-    } else if (currenceSelecionarMoeda.value === 'Euro') {
+    } else if (moeda === 'EUR') {
         currenceNome.innerHTML = 'Euro';
         currenceImagem.src = './assets/logo-euro.png';
-    } else if (currenceSelecionarMoeda.value === 'Libra') {
+    } else if (moeda === 'GBP') {
         currenceNome.innerHTML = 'Libra';
         currenceImagem.src = './assets/icons8-moeda-de-libra-53.png';
     }
@@ -61,7 +69,5 @@ function changeCurrence() {
     convertValues();
 }
 
-// Eventos
 currenceSelecionarMoeda.addEventListener('change', changeCurrence);
 botaoConverter.addEventListener('click', convertValues);
-
