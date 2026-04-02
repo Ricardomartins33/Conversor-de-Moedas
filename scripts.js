@@ -23,7 +23,7 @@ async function convertValues() {
     try {
         currenceValorConvertido.innerHTML = "Carregando...";
 
-        
+        await new Promise(resolve => setTimeout(resolve, 500));
        const response = await fetch(`https://api.frankfurter.app/latest?from=BRL`);
         const data = await response.json();
 
