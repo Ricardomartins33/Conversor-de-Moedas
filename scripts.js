@@ -24,14 +24,13 @@ async function convertValues() {
     `https://api.frankfurter.app/latest?from=BRL`
 );
 
-        const data = await response.json();
+        const response = await fetch(
+    `https://api.frankfurter.app/latest?amount=${valor}&from=BRL&to=${moeda}`
+);
 
-        const taxa = data.rates?.[moeda];
+const data = await response.json();
 
-        if (!taxa) {
-            throw new Error("Taxa não encontrada para " + moeda);
-        }
-
+const valorConvertido = data.rates?.[moeda];
         const valorConvertido = valor * taxa;
 
         let locale = 'en-US';
