@@ -15,11 +15,9 @@ async function converterMoeda() {
 
     if (!valor || valor <= 0) return;
 
-    const resposta = await fetch(
+    const data = await fetch(
         "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,GBP-BRL"
-    );
-
-    const data = await resposta.json();
+    ).then(r => r.json());
 
     const dolar = Number(data.USDBRL.high);
     const euro = Number(data.EURBRL.high);
@@ -27,57 +25,46 @@ async function converterMoeda() {
 
     const moeda = moedaPara.value;
 
-    const moedas = {
-        USD: {
-            nome: "Dólar americano",
-            img: "assets/icons8-circular-dos-eua-50.png",
-            taxa: dolar
-        },
-        EUR: {
-            nome: "Euro",
-            img: "assets/logo-euro.png",
-            taxa: euro
-        },
-        GBP: {
-            nome: "Libra Esterlina",
-            img: "assets/icons8-moeda-de-libra-53.png",
-            taxa: libra
-        }
-    };
+    
+    let taxa = 1;
+    let nome = "";
+    let img = "";
 
-    const moedaSelecionada = moedas[moeda];
-
-    // segurança contra erro
-    if (!moedaSelecionada) {
-        console.log("Moeda inválida:", moeda);
-        return;
+    if (moeda === "USD") {
+        taxa = dolar;
+        nome = "Dólar americano";
+        img = "assets/icons8-circular-dos-eua-50.png";
     }
 
-    // mostra valor em BRL
+    if (moeda === "EUR") {
+        taxa = euro;
+        nome = "Euro";
+        img = "assets/logo-euro.png";
+    }
+
+    if (moeda === "GBP") {
+        taxa = libra;
+        nome = "Libra Esterlina";
+        img = "assets/icons8-moeda-de-libra-53.png";
+    }
+
+    
     resultadoBRL.innerHTML = new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL"
     }).format(valor);
 
-    // conversão
-    const convertido = valor / moedaSelecionada.taxa;
+    
+    const convertido = valor / taxa;
 
     resultadoFinal.innerHTML = new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: moeda
     }).format(convertido);
 
-    // nome da moeda
-    nomeMoeda.innerHTML = moedaSelecionada.nome;
-
-    // imagem da moeda
-    imgMoeda.src = moedaSelecionada.img;
-
-    // fallback se imagem falhar
-    imgMoeda.onerror = () => {
-        imgMoeda.src = "assets/icons8-circular-dos-eua-50.png";
-    };
+    
+    nomeMoeda.innerHTML = nome;
+    imgMoeda.src = img;
 }
 
-// evento do botão
 botaoConverter.addEventListener("click", converterMoeda);
