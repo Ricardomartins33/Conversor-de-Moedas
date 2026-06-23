@@ -21,8 +21,8 @@ async function convertValues() {
         currenceValorConvertido.innerHTML = "Carregando...";
 
         const response = await fetch(
-            `https://api.frankfurter.app/latest?from=BRL&to=${moeda}`
-        );
+    `https://api.frankfurter.app/latest?from=BRL`
+);
 
         const data = await response.json();
 
