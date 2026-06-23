@@ -1,7 +1,9 @@
+document.addEventListener("DOMContentLoaded", () => {
+
 const botaoConverter = document.querySelector('.botao-converter');
 const currenceSelecionarMoeda = document.querySelector('.currence-selecionar-moeda');
 
-async function convertValues() {
+function convertValues() {
     const inputValorDigitadoValue = document.querySelector('.input-valor-digitado');
     const currenceValorSerConverter = document.querySelector('.currence-valor-ser-converter');
     const currenceValorConvertido = document.querySelector('.currence-valor-convertido');
@@ -20,38 +22,27 @@ async function convertValues() {
         currency: 'BRL'
     }).format(valor);
 
-    try {
-        currenceValorConvertido.innerHTML = "Carregando...";
+    fetch(`https://api.frankfurter.app/latest?from=BRL`)
+        .then(res => res.json())
+        .then(data => {
 
-        
-        const response = await fetch(
-            `https://api.frankfurter.app/latest?from=BRL`
-        );
+            const taxa = data.rates[moeda];
 
-        const data = await response.json();
+            const valorConvertido = valor * taxa;
 
-        const taxa = data.rates[moeda];
+            let locale = 'en-US';
+            if (moeda === 'EUR') locale = 'de-DE';
+            if (moeda === 'GBP') locale = 'en-GB';
 
-        if (!taxa) {
-            throw new Error("Moeda não encontrada na API");
-        }
+            currenceValorConvertido.innerHTML = new Intl.NumberFormat(locale, {
+                style: 'currency',
+                currency: moeda
+            }).format(valorConvertido);
 
-        const valorConvertido = valor * taxa;
-
-        let locale = 'en-US';
-        if (moeda === 'EUR') locale = 'de-DE';
-        if (moeda === 'GBP') locale = 'en-GB';
-        if (moeda === 'USD') locale = 'en-US';
-
-        currenceValorConvertido.innerHTML = new Intl.NumberFormat(locale, {
-            style: 'currency',
-            currency: moeda
-        }).format(valorConvertido);
-
-    } catch (erro) {
-        currenceValorConvertido.innerHTML = "Erro ao converter.";
-        console.error("Erro:", erro);
-    }
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }
 
 function changeCurrence() {
@@ -74,5 +65,7 @@ function changeCurrence() {
     convertValues();
 }
 
-currenceSelecionarMoeda.addEventListener('change', changeCurrence);
 botaoConverter.addEventListener('click', convertValues);
+currenceSelecionarMoeda.addEventListener('change', changeCurrence);
+
+});
