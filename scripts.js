@@ -13,7 +13,7 @@ async function converterMoeda() {
 
     const valor = Number(inputValor.value);
 
-    if (!valor) return;
+    if (!valor || valor <= 0) return;
 
     const data = await fetch(
         "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,GBP-BRL"
@@ -23,46 +23,40 @@ async function converterMoeda() {
     const euro = Number(data.EURBRL.high);
     const libra = Number(data.GBPBRL.high);
 
+    const moeda = moedaPara.value;
+
+    const moedas = {
+        USD: {
+            nome: "Dólar americano",
+            img: "assets/icons8-circular-dos-eua-50.png",
+            taxa: dolar
+        },
+        EUR: {
+            nome: "Euro",
+            img: "assets/euro.png",
+            taxa: euro
+        },
+        GBP: {
+            nome: "Libra Esterlina",
+            img: "assets/libra.png",
+            taxa: libra
+        }
+    };
+
+    
     resultadoBRL.innerHTML = new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: "BRL"
     }).format(valor);
 
-    let resultado = 0;
+    
+    resultadoFinal.innerHTML = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: moeda
+    }).format(valor / moedas[moeda].taxa);
 
-    if (moedaPara.value === "USD") {
-        resultado = valor / dolar;
-        resultadoFinal.innerHTML = new Intl.NumberFormat("en-US", {
-            style: "currency",
-            currency: "USD"
-        }).format(resultado);
-
-        nomeMoeda.innerHTML = "Dólar";
-        imgMoeda.src = "assets/icons8-circular-dos-eua-50.png";
-    }
-
-    if (moedaPara.value === "EUR") {
-        resultado = valor / euro;
-        resultadoFinal.innerHTML = new Intl.NumberFormat("de-DE", {
-            style: "currency",
-            currency: "EUR"
-        }).format(resultado);
-
-        nomeMoeda.innerHTML = "Euro";
-        imgMoeda.src = "assets/euro.png";
-    }
-
-    if (moedaPara.value === "GBP") {
-        resultado = valor / libra;
-        resultadoFinal.innerHTML = new Intl.NumberFormat("en-GB", {
-            style: "currency",
-            currency: "GBP"
-        }).format(resultado);
-
-        nomeMoeda.innerHTML = "Libra";
-        imgMoeda.src = "assets/libra.png";
-    }
+    nomeMoeda.innerHTML = moedas[moeda].nome;
+    imgMoeda.src = moedas[moeda].img;
 }
 
 botaoConverter.addEventListener("click", converterMoeda);
-moedaPara.addEventListener("change", converterMoeda);
