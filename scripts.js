@@ -7,8 +7,13 @@ const inputValor = document.querySelector('.input-valor-digitado');
 
 const resultadoFinal = document.querySelector('.currence-valor-convertido');
 
+const currencyName = document.getElementById('currency-name');
+const currencyImg = document.getElementById('currency-img');
+
 async function converterMoeda() {
+
     try {
+
         const valor = Number(inputValor.value);
 
         if (!valor) {
@@ -16,21 +21,32 @@ async function converterMoeda() {
             return;
         }
 
-        const url = `https://api.exchangerate-api.com/v4/latest/${moedaDe.value}`;
+        const data = await fetch(
+            "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL"
+        ).then(res => res.json());
 
-        const response = await fetch(url);
-        const data = await response.json();
+        const dolar = Number(data.USDBRL.high);
+        const euro = Number(data.EURBRL.high);
 
-        const taxa = data.rates[moedaPara.value];
+        let resultado = 0;
 
-        if (!taxa) {
-            resultadoFinal.innerHTML = "Moeda não encontrada";
-            return;
+        if (moedaPara.value === "US$ Dólar americano") {
+            resultado = valor / dolar;
+
+            resultadoFinal.innerHTML = new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD"
+            }).format(resultado);
         }
 
-        const resultado = valor * taxa;
+        if (moedaPara.value === "€ Euro") {
+            resultado = valor / euro;
 
-        resultadoFinal.innerHTML = resultado.toFixed(2);
+            resultadoFinal.innerHTML = new Intl.NumberFormat("de-DE", {
+                style: "currency",
+                currency: "EUR"
+            }).format(resultado);
+        }
 
     } catch (error) {
         console.log(error);
@@ -38,4 +54,20 @@ async function converterMoeda() {
     }
 }
 
-botaoConverter.addEventListener('click', converterMoeda);
+function changeCurrency() {
+
+    if (moedaPara.value === "€ Euro") {
+        currencyName.innerHTML = "Euro";
+        currencyImg.src = "./assets/euro.png";
+    }
+
+    if (moedaPara.value === "US$ Dólar americano") {
+        currencyName.innerHTML = "Dólar Americano";
+        currencyImg.src = "./assets/eua.png";
+    }
+
+    converterMoeda();
+}
+
+botaoConverter.addEventListener("click", converterMoeda);
+moedaPara.addEventListener("change", changeCurrency);
