@@ -43,31 +43,32 @@ async function converterMoeda() {
   }
 };
 
-    const moedaSelecionada = moedas[moeda];
+    const moeda = moedaPara.value;
 
-    
-    resultadoBRL.innerHTML = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: "BRL"
-    }).format(valor);
+const moedaSelecionada = moedas[moeda];
 
-    
-    const convertido = valor / moedaSelecionada.taxa;
-
-    resultadoFinal.innerHTML = new Intl.NumberFormat("pt-BR", {
-        style: "currency",
-        currency: moeda
-    }).format(convertido);
-
-    
-    nomeMoeda.innerHTML = moedaSelecionada.nome;
-
-    
-    imgMoeda.src = moedaSelecionada.img;
-
-    imgMoeda.onerror = function () {
-        imgMoeda.src = "./assets/icons8-circular-dos-eua-50.png";
-    };
+if (!moedaSelecionada) {
+    console.log("Moeda inválida:", moeda);
+    return;
 }
+
+// conversão
+const convertido = valor / moedaSelecionada.taxa;
+
+resultadoFinal.innerHTML = new Intl.NumberFormat("pt-BR", {
+    style: "currency",
+    currency: moeda
+}).format(convertido);
+
+// nome
+nomeMoeda.innerHTML = moedaSelecionada.nome;
+
+// imagem (FORÇANDO ATUALIZAÇÃO)
+imgMoeda.src = moedaSelecionada.img;
+
+// fallback se imagem falhar
+imgMoeda.onerror = () => {
+    imgMoeda.src = "assets/icons8-circular-dos-eua-50.png";
+};
 
 botaoConverter.addEventListener("click", converterMoeda);
