@@ -1,70 +1,44 @@
-document.addEventListener("DOMContentLoaded", () => {
-
 const botaoConverter = document.querySelector('.botao-converter');
-const currenceSelecionarMoeda = document.querySelector('.currence-selecionar-moeda');
 
-function convertValues() {
-    const inputValorDigitadoValue = document.querySelector('.input-valor-digitado');
-    const currenceValorSerConverter = document.querySelector('.currence-valor-ser-converter');
-    const currenceValorConvertido = document.querySelector('.currence-valor-convertido');
+const moedaOrigem = document.querySelector('.currence-valor-ser-converter');
+const moedaDestino = document.querySelector('.currence-valor-convertido');
 
-    const valor = Number(inputValorDigitadoValue.value);
+const inputValor = document.querySelector('.input-valor-digitado');
 
-    if (isNaN(valor) || valor <= 0) {
+async function converter() {
+    const valor = Number(inputValor.value);
+
+    if (!valor || valor <= 0) {
         alert("Digite um valor válido");
         return;
     }
 
-    const moeda = currenceSelecionarMoeda.value;
+    const moedaDe = moedaOrigem.value;
+    const moedaPara = moedaDestino.value;
 
-    currenceValorSerConverter.innerHTML = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    }).format(valor);
+    try {
+        const response = await fetch(
+            `https://api.exchangerate.host/convert?from=${moedaDe}&to=${moedaPara}&amount=${valor}`
+        );
 
-    fetch(`https://api.frankfurter.app/latest?amount=${valor}&from=BRL&to=${moeda}`)
-        .then(res => res.json())
-        .then(data => {
+        const data = await response.json();
 
-            const taxa = data.rates[moeda];
+        const resultado = data.result;
 
-           
-            let locale = 'en-US';
-            if (moeda === 'EUR') locale = 'de-DE';
-            if (moeda === 'GBP') locale = 'en-GB';
+        document.querySelector('.valor-convertido-final').innerHTML =
+            resultado.toFixed(2);
 
-            currenceValorConvertido.innerHTML = new Intl.NumberFormat(locale, {
-                style: 'currency',
-                currency: moeda
-            }).format(valorConvertido);
+        document.querySelector('.valor-moeda-origem').innerHTML = valor.toFixed(2);
 
-        })
-        .catch(err => {
-            console.error(err);
-        });
-}
-
-function changeCurrence() {
-    const currenceNome = document.getElementById('currence-nome');
-    const currenceImagem = document.querySelector('.currence-img');
-
-    const moeda = currenceSelecionarMoeda.value;
-
-    if (moeda === 'USD') {
-        currenceNome.innerHTML = 'Dólar';
-        currenceImagem.src = './assets/icons8-circular-dos-eua-50.png';
-    } else if (moeda === 'EUR') {
-        currenceNome.innerHTML = 'Euro';
-        currenceImagem.src = './assets/logo-euro.png';
-    } else if (moeda === 'GBP') {
-        currenceNome.innerHTML = 'Libra';
-        currenceImagem.src = './assets/icons8-moeda-de-libra-53.png';
+    } catch (error) {
+        console.log(error);
+        alert("Erro ao buscar conversão");
     }
-
-    convertValues();
 }
 
-botaoConverter.addEventListener('click', convertValues);
-currenceSelecionarMoeda.addEventListener('change', changeCurrence);
 
-});
+botaoConverter.addEventListener('click', converter);
+
+
+moedaOrigem.addEventListener('change', converter);
+moedaDestino.addEventListener('change', converter);
