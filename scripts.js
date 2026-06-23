@@ -26,22 +26,22 @@ async function converterMoeda() {
     const moeda = moedaPara.value;
 
     const moedas = {
-        USD: {
-            nome: "Dólar americano",
-            img: "./assets/icons8-circular-dos-eua-50.png",
-            taxa: dolar
-        },
-        EUR: {
-            nome: "Euro",
-            img: "./assets/euro.png",
-            taxa: euro
-        },
-        GBP: {
-            nome: "Libra Esterlina",
-            img: "./assets/libra.png",
-            taxa: libra
-        }
-    };
+  USD: {
+    nome: "Dólar americano",
+    img: "./assets/icons8-circular-dos-eua-50.png",
+    taxa: dolar
+  },
+  EUR: {
+    nome: "Euro",
+    img: "./assets/logo-euro.png",
+    taxa: euro
+  },
+  GBP: {
+    nome: "Libra Esterlina",
+    img: "./assets/icons8-moeda-de-libra-53.png",
+    taxa: libra
+  }
+};
 
     const moedaSelecionada = moedas[moeda];
 
