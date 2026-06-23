@@ -22,14 +22,13 @@ function convertValues() {
         currency: 'BRL'
     }).format(valor);
 
-    fetch(`https://api.frankfurter.app/latest?from=BRL`)
+    fetch(`https://api.frankfurter.app/latest?amount=${valor}&from=BRL&to=${moeda}`)
         .then(res => res.json())
         .then(data => {
 
             const taxa = data.rates[moeda];
 
-            const valorConvertido = valor * taxa;
-
+           
             let locale = 'en-US';
             if (moeda === 'EUR') locale = 'de-DE';
             if (moeda === 'GBP') locale = 'en-GB';
