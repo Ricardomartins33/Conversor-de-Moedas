@@ -1,3 +1,6 @@
+const botaoConverter = document.querySelector('.botao-converter');
+const currenceSelecionarMoeda = document.querySelector('.currence-selecionar-moeda');
+
 async function convertValues() {
     const inputValorDigitadoValue = document.querySelector('.input-valor-digitado');
     const currenceValorSerConverter = document.querySelector('.currence-valor-ser-converter');
@@ -5,7 +8,7 @@ async function convertValues() {
 
     const valor = Number(inputValorDigitadoValue.value);
 
-    if (!valor || valor <= 0) {
+    if (isNaN(valor) || valor <= 0) {
         alert("Digite um valor válido");
         return;
     }
@@ -20,18 +23,25 @@ async function convertValues() {
     try {
         currenceValorConvertido.innerHTML = "Carregando...";
 
-        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        const response = await fetch(
+            `https://api.frankfurter.app/latest?from=BRL`
+        );
 
-        const response = await fetch(`https://api.frankfurter.app/latest?base=BRL`);
         const data = await response.json();
 
         const taxa = data.rates[moeda];
+
+        if (!taxa) {
+            throw new Error("Moeda não encontrada na API");
+        }
 
         const valorConvertido = valor * taxa;
 
         let locale = 'en-US';
         if (moeda === 'EUR') locale = 'de-DE';
         if (moeda === 'GBP') locale = 'en-GB';
+        if (moeda === 'USD') locale = 'en-US';
 
         currenceValorConvertido.innerHTML = new Intl.NumberFormat(locale, {
             style: 'currency',
@@ -43,7 +53,6 @@ async function convertValues() {
         console.error("Erro:", erro);
     }
 }
-
 
 function changeCurrence() {
     const currenceNome = document.getElementById('currence-nome');
