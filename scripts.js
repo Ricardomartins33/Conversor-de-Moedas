@@ -28,20 +28,22 @@ async function converterMoeda() {
     const moedas = {
         USD: {
             nome: "Dólar americano",
-            img: "assets/icons8-circular-dos-eua-50.png",
+            img: "./assets/icons8-circular-dos-eua-50.png",
             taxa: dolar
         },
         EUR: {
             nome: "Euro",
-            img: "assets/euro.png",
+            img: "./assets/euro.png",
             taxa: euro
         },
         GBP: {
             nome: "Libra Esterlina",
-            img: "assets/libra.png",
+            img: "./assets/libra.png",
             taxa: libra
         }
     };
+
+    const moedaSelecionada = moedas[moeda];
 
     
     resultadoBRL.innerHTML = new Intl.NumberFormat("pt-BR", {
@@ -50,13 +52,22 @@ async function converterMoeda() {
     }).format(valor);
 
     
-    resultadoFinal.innerHTML = new Intl.NumberFormat("en-US", {
+    const convertido = valor / moedaSelecionada.taxa;
+
+    resultadoFinal.innerHTML = new Intl.NumberFormat("pt-BR", {
         style: "currency",
         currency: moeda
-    }).format(valor / moedas[moeda].taxa);
+    }).format(convertido);
 
-    nomeMoeda.innerHTML = moedas[moeda].nome;
-    imgMoeda.src = moedas[moeda].img;
+    
+    nomeMoeda.innerHTML = moedaSelecionada.nome;
+
+    
+    imgMoeda.src = moedaSelecionada.img;
+
+    imgMoeda.onerror = function () {
+        imgMoeda.src = "./assets/icons8-circular-dos-eua-50.png";
+    };
 }
 
 botaoConverter.addEventListener("click", converterMoeda);
