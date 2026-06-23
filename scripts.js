@@ -1,44 +1,41 @@
 const botaoConverter = document.querySelector('.botao-converter');
 
-const moedaOrigem = document.querySelector('.currence-valor-ser-converter');
-const moedaDestino = document.querySelector('.currence-valor-convertido');
+const moedaDe = document.querySelector('.currence-valor-ser-converter');
+const moedaPara = document.querySelector('.currence-selecionar-moeda');
 
 const inputValor = document.querySelector('.input-valor-digitado');
 
-async function converter() {
-    const valor = Number(inputValor.value);
+const resultadoFinal = document.querySelector('.currence-valor-convertido');
 
-    if (!valor || valor <= 0) {
-        alert("Digite um valor válido");
-        return;
-    }
-
-    const moedaDe = moedaOrigem.value;
-    const moedaPara = moedaDestino.value;
-
+async function converterMoeda() {
     try {
-        const response = await fetch(
-            `https://api.exchangerate.host/convert?from=${moedaDe}&to=${moedaPara}&amount=${valor}`
-        );
+        const valor = Number(inputValor.value);
 
+        if (!valor) {
+            resultadoFinal.innerHTML = "Digite um valor válido";
+            return;
+        }
+
+        const url = `https://api.exchangerate-api.com/v4/latest/${moedaDe.value}`;
+
+        const response = await fetch(url);
         const data = await response.json();
 
-        const resultado = data.result;
+        const taxa = data.rates[moedaPara.value];
 
-        document.querySelector('.valor-convertido-final').innerHTML =
-            resultado.toFixed(2);
+        if (!taxa) {
+            resultadoFinal.innerHTML = "Moeda não encontrada";
+            return;
+        }
 
-        document.querySelector('.valor-moeda-origem').innerHTML = valor.toFixed(2);
+        const resultado = valor * taxa;
+
+        resultadoFinal.innerHTML = resultado.toFixed(2);
 
     } catch (error) {
         console.log(error);
-        alert("Erro ao buscar conversão");
+        resultadoFinal.innerHTML = "Erro na conversão";
     }
 }
 
-
-botaoConverter.addEventListener('click', converter);
-
-
-moedaOrigem.addEventListener('change', converter);
-moedaDestino.addEventListener('change', converter);
+botaoConverter.addEventListener('click', converterMoeda);
