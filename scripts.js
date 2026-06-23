@@ -15,9 +15,11 @@ async function converterMoeda() {
 
     if (!valor || valor <= 0) return;
 
-    const data = await fetch(
+    const resposta = await fetch(
         "https://economia.awesomeapi.com.br/last/USD-BRL,EUR-BRL,GBP-BRL"
-    ).then(r => r.json());
+    );
+
+    const data = await resposta.json();
 
     const dolar = Number(data.USDBRL.high);
     const euro = Number(data.EURBRL.high);
@@ -26,49 +28,56 @@ async function converterMoeda() {
     const moeda = moedaPara.value;
 
     const moedas = {
-  USD: {
-    nome: "Dólar americano",
-    img: "./assets/icons8-circular-dos-eua-50.png",
-    taxa: dolar
-  },
-  EUR: {
-    nome: "Euro",
-    img: "./assets/logo-euro.png",
-    taxa: euro
-  },
-  GBP: {
-    nome: "Libra Esterlina",
-    img: "./assets/icons8-moeda-de-libra-53.png",
-    taxa: libra
-  }
-};
+        USD: {
+            nome: "Dólar americano",
+            img: "assets/icons8-circular-dos-eua-50.png",
+            taxa: dolar
+        },
+        EUR: {
+            nome: "Euro",
+            img: "assets/logo-euro.png",
+            taxa: euro
+        },
+        GBP: {
+            nome: "Libra Esterlina",
+            img: "assets/icons8-moeda-de-libra-53.png",
+            taxa: libra
+        }
+    };
 
-    const moeda = moedaPara.value;
+    const moedaSelecionada = moedas[moeda];
 
-const moedaSelecionada = moedas[moeda];
+    // segurança contra erro
+    if (!moedaSelecionada) {
+        console.log("Moeda inválida:", moeda);
+        return;
+    }
 
-if (!moedaSelecionada) {
-    console.log("Moeda inválida:", moeda);
-    return;
+    // mostra valor em BRL
+    resultadoBRL.innerHTML = new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    }).format(valor);
+
+    // conversão
+    const convertido = valor / moedaSelecionada.taxa;
+
+    resultadoFinal.innerHTML = new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: moeda
+    }).format(convertido);
+
+    // nome da moeda
+    nomeMoeda.innerHTML = moedaSelecionada.nome;
+
+    // imagem da moeda
+    imgMoeda.src = moedaSelecionada.img;
+
+    // fallback se imagem falhar
+    imgMoeda.onerror = () => {
+        imgMoeda.src = "assets/icons8-circular-dos-eua-50.png";
+    };
 }
 
-// conversão
-const convertido = valor / moedaSelecionada.taxa;
-
-resultadoFinal.innerHTML = new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: moeda
-}).format(convertido);
-
-// nome
-nomeMoeda.innerHTML = moedaSelecionada.nome;
-
-// imagem (FORÇANDO ATUALIZAÇÃO)
-imgMoeda.src = moedaSelecionada.img;
-
-// fallback se imagem falhar
-imgMoeda.onerror = () => {
-    imgMoeda.src = "assets/icons8-circular-dos-eua-50.png";
-};
-
+// evento do botão
 botaoConverter.addEventListener("click", converterMoeda);
